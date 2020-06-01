@@ -38,7 +38,7 @@ namespace Apicalypse.DotNet
         /// <param name="httpClient">The HttpClient used to send the query</param>
         /// <param name="endpoint">The endpoint used for the POST request</param>
         /// <returns></returns>
-        public async Task<T> Send<T>(HttpClient httpClient, string endpoint)
+        public async Task<IEnumerable<T>> Send<T>(HttpClient httpClient, string endpoint)
             where T : new()
         {
             var response = await Send(httpClient, endpoint).ConfigureAwait(false);
@@ -47,7 +47,7 @@ namespace Apicalypse.DotNet
             {
                 var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                return System.Text.Json.JsonSerializer.Deserialize<T>(content);
+                return System.Text.Json.JsonSerializer.Deserialize<IEnumerable<T>>(content);
             }
 
             throw new Exception($"Response status code is not successfull : {response.StatusCode} : {response.ReasonPhrase}");

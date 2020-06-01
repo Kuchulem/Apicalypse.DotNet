@@ -15,10 +15,10 @@ namespace Apicalypse.DotNet.Tests.Mocks
         {
             return new HttpResponseMessage
             {
-                Content = new StringContent(JsonSerializer.Serialize(new HttpMockModel
+                Content = new StringContent(JsonSerializer.Serialize(new[] {new HttpMockModel
                 {
                     RequestBody = await request.Content.ReadAsStringAsync()
-                })),
+                }})),
                 StatusCode = System.Net.HttpStatusCode.OK
             };
         }

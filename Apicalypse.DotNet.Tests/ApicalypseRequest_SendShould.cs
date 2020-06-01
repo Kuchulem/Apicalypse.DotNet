@@ -1,6 +1,7 @@
 ﻿using Apicalypse.DotNet.Tests.Mocks;
 using Apicalypse.DotNet.Tests.Models;
 using NUnit.Framework;
+using System.Linq;
 using System.Net.Http;
 
 namespace Apicalypse.DotNet.Tests
@@ -51,7 +52,7 @@ namespace Apicalypse.DotNet.Tests
                 "limit 8;\n" +
                 "offset 2;";
 
-            Assert.AreEqual(expected, response.RequestBody);
+            Assert.AreEqual(expected, response.First().RequestBody);
         }
     }
 }
