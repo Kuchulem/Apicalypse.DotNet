@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.0.0-beta01</Version>
+    <Authors>Kuchukem</Authors>
+    <Product>Apicalypse .Net Stadard library</Product>
+    <Description>A .Net standard library to query APIs using Apicalypse query format.
+The library is base on Linq.</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/Kuchulem/Apicalypse.DotNet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Kuchulem/Apicalypse.DotNet</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>Apicalypse</PackageTags>
+    <PackageReleaseNotes>The beta version of the library, will need some testing (other than units tests)</PackageReleaseNotes>
+    <Copyright>2020 @Kuchulem</Copyright>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="4.7.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
