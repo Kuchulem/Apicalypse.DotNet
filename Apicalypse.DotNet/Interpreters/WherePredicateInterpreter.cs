@@ -182,9 +182,9 @@ namespace Apicalypse.DotNet.Interpreters
                 case nameof(string.Contains):
                     return MakeStringComparisonString(method, true, true, DoesMethodIgnoreCase(method));
                 case nameof(string.StartsWith):
-                    return MakeStringComparisonString(method, true, false, DoesMethodIgnoreCase(method));
-                case nameof(string.EndsWith):
                     return MakeStringComparisonString(method, false, true, DoesMethodIgnoreCase(method));
+                case nameof(string.EndsWith):
+                    return MakeStringComparisonString(method, true, false, DoesMethodIgnoreCase(method));
                 default:
                     throw new NotImplementedException($"The string comparison method {method.Method.Name} is not implemented");
             }

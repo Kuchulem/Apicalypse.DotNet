@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Apicalypse.DotNet
@@ -47,7 +48,10 @@ namespace Apicalypse.DotNet
             {
                 var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                return System.Text.Json.JsonSerializer.Deserialize<IEnumerable<T>>(content);
+                return JsonSerializer.Deserialize<IEnumerable<T>>(content, new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
             }
 
             throw new Exception($"Response status code is not successfull : {response.StatusCode} : {response.ReasonPhrase}");

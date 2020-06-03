@@ -71,7 +71,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
         [Test]
         public void ReturnStringStartsWithTest()
         {
-            var expected = "name = *\"Foo\"";
+            var expected = "name = \"Foo\"*";
 
             Expression<Func<Game, bool>> predicate = (g) => g.Name.StartsWith("Foo");
 
@@ -81,7 +81,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
         [Test]
         public void ReturnStringStartsWithIgnoreCaseTest()
         {
-            var expected = "name ~ *\"Foo\"";
+            var expected = "name ~ \"Foo\"*";
 
             Expression<Func<Game, bool>> predicate = (g) => g.Name.StartsWith("Foo", StringComparison.InvariantCultureIgnoreCase);
 
@@ -91,7 +91,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
         [Test]
         public void ReturnStringStartsWithIgnoreCaseVariantTest()
         {
-            var expected = "name ~ *\"Foo\"";
+            var expected = "name ~ \"Foo\"*";
 
             Expression<Func<Game, bool>> predicate = (g) => g.Name.StartsWith("Foo", true, CultureInfo.InvariantCulture);
 
@@ -101,7 +101,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
         [Test]
         public void ReturnStringEndsWithTest()
         {
-            var expected = "name = \"Foo\"*";
+            var expected = "name = *\"Foo\"";
 
             Expression<Func<Game, bool>> predicate = (g) => g.Name.EndsWith("Foo");
 
@@ -111,7 +111,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
         [Test]
         public void ReturnStringEndsWithIgnoreCaseTest()
         {
-            var expected = "name ~ \"Foo\"*";
+            var expected = "name ~ *\"Foo\"";
 
             Expression<Func<Game, bool>> predicate = (g) => g.Name.EndsWith("Foo", StringComparison.InvariantCultureIgnoreCase);
 
@@ -121,7 +121,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
         [Test]
         public void ReturnStringEndsWithIgnoreCaseVariantTest()
         {
-            var expected = "name ~ \"Foo\"*";
+            var expected = "name ~ *\"Foo\"";
 
             Expression<Func<Game, bool>> predicate = (g) => g.Name.EndsWith("Foo", true, CultureInfo.InvariantCulture);
 
@@ -271,7 +271,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
         [Test]
         public void ReturnMultipleFiltersTest()
         {
-            var expected = "name = \"Foo\"* & follows = (3,4,5) & alternative_names = !{1,2,3}";
+            var expected = "name = *\"Foo\" & follows = (3,4,5) & alternative_names = !{1,2,3}";
 
             Expression<Func<Game, bool>> predicate = (g) => 
                 g.Name.EndsWith("Foo")
@@ -284,7 +284,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
         [Test]
         public void ReturnMultipleFiltersWithOrTest()
         {
-            var expected = "name = \"Foo\"* & follows = (3,4,5) | alternative_names = !{1,2,3}";
+            var expected = "name = *\"Foo\" & follows = (3,4,5) | alternative_names = !{1,2,3}";
 
             Expression<Func<Game, bool>> predicate = (g) =>
                 g.Name.EndsWith("Foo")
