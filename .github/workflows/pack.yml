@@ -34,7 +34,7 @@ jobs:
 
     # Execute all unit tests in the solution
     - name: Pack the lib
-      run: dotnet pack Apicalypse.DotNet/Apicalypse.DotNet.csproj --configuration Release --output nuget-package
+      run: dotnet pack Apicalypse.DotNet/Apicalypse.DotNet.csproj --configuration Release --output nuget-packages
     
     - name: Publish the lib
-      run: dotnet nuget push Apicalypse.DotNet/nuget-packages/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push nuget-packages/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
