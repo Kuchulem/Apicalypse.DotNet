@@ -3,9 +3,12 @@ A .Net Stadard library to query APIs based on Apycalipse.
 
 # How to install
 
+more info [here](https://github.com/Kuchulem/Apicalypse.DotNet/wiki/Get-Started)
+
 ## Nuget package
 
-Comming soon
+In *Nuget package manager* search for `Apicalypse.DotNet` and click on install the package.
+
 
 ## Embeded library
 
@@ -31,6 +34,8 @@ dotnet add Contoso.MyProject/Contoso.MyProject.csproj reference Apicalypse.DotNe
 ```
 
 # Usage
+
+For a full reference to the library go [there](https://github.com/Kuchulem/Apicalypse.DotNet/wiki/Library-Reference)
 
 The entry point of the library is the `RequestBuilder<T>`. The Generic `T` should be a class of the api endpoint.
 
