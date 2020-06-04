@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.0-beta04</Version>
+    <Version>1.0.0-beta05</Version>
     <Authors>Kuchukem</Authors>
     <Product>Apicalypse .Net Stadard library</Product>
     <Description>A .Net standard library to query APIs using Apicalypse query format.
-The library is base on Linq.</Description>
+The library is based on Linq.</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/Kuchulem/Apicalypse.DotNet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Kuchulem/Apicalypse.DotNet</RepositoryUrl>
