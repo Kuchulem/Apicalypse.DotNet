@@ -18,7 +18,7 @@ namespace Apicalypse.DotNet.Tests.Mocks
                 Content = new StringContent(JsonSerializer.Serialize(new[] {new HttpMockModel
                 {
                     RequestBody = await request.Content.ReadAsStringAsync()
-                }})),
+                }}, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase })),
                 StatusCode = System.Net.HttpStatusCode.OK
             };
         }
