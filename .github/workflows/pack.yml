@@ -1,13 +1,11 @@
-# This is the workflow for unit tests
+# This is a basic workflow to help you get started with Actions
 
-name: Unit Tests
+name: Publish
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -33,3 +31,10 @@ jobs:
     # Execute all unit tests in the solution
     - name: Execute unit tests
       run: dotnet test
+
+    # Execute all unit tests in the solution
+    - name: Pack the lib
+      run: dotnet pack Apicalypse.DotNet/Apicalypse.DotNet/Apicalypse.DotNet.csproj --configuration Release --output nuget-package
+    
+    - name: Publish the lib
+      run: dotnet nuget push nuget-packages/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json

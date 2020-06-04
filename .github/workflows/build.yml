@@ -1,6 +1,6 @@
-# This is the workflow for unit tests
+# This is the build workflow
 
-name: Unit Tests
+name: Build
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -31,5 +31,5 @@ jobs:
         dotnet-version: 3.1.101
 
     # Execute all unit tests in the solution
-    - name: Execute unit tests
-      run: dotnet test
+    - name: Execute build
+      run: dotnet build --configuration Release
