@@ -30,17 +30,6 @@ jobs:
       with:
         dotnet-version: 3.1.101
 
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@2008f912f56e61277eefaac6d1888b750582aa16
-
     # Execute all unit tests in the solution
     - name: Execute unit tests
       run: dotnet test
-      
-    # Publish
-    - name: Publish NuGet
-      uses: brandedoutcast/publish-nuget@v2.5.2
-      with:
-        # Filepath of the project to be packaged, relative to root of repository
-        PROJECT_FILE_PATH: "Apicalypse.DotNet"
