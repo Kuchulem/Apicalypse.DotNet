@@ -1,3 +1,6 @@
+
+![Build](https://github.com/Kuchulem/Apicalypse.DotNet/workflows/Build/badge.svg?branch=master) ![Unit Tests](https://github.com/Kuchulem/Apicalypse.DotNet/workflows/Unit%20Tests/badge.svg?branch=master)
+
 # Apicalypse.DotNet
 A .Net Stadard library to query APIs based on Apycalipse.
 
