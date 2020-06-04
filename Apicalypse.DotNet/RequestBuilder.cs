@@ -66,9 +66,11 @@ namespace Apicalypse.DotNet
         /// Sets the list of fields to exclude from the API model using the predicate used
         /// in parameters.<br/>
         /// Each call replace the previous.<br/>
-        /// Prepares the <strong>filters</strong> statement of the Apicalypse query.
+        /// Prepares the <strong>excludes</strong> statement of the Apicalypse query.<br/>
+        /// Can't be combine with the <em>Select(Expression&lt;Func&lt;T, object&gt;&gt;)</em> or the
+        /// <em>Select&lt;TSelect&gt;()</em> methods.
         /// </summary>
-        /// <param name="predicate">A predicate expression that provides a list of fields or a single fields</param>
+        /// <param name="predicate">A predicate expression that provides a list of fields or a single field</param>
         /// <returns>The request builder, to chain the statements</returns>
         public RequestBuilder<T> Exclude(Expression<Func<T, object>> predicate)
         {
@@ -81,9 +83,9 @@ namespace Apicalypse.DotNet
         }
 
         /// <summary>
-        /// Sets the filters to send to the API.<br/>
+        /// Sets the where clause to send to the API.<br/>
         /// Each call replace the previous<br/>
-        /// Prepares the <strong>filters</strong> statement of the Apicalypse query.
+        /// Prepares the <strong>where</strong> statement of the Apicalypse query.
         /// </summary>
         /// <param name="predicate">A predicate expression that provides a conditional test</param>
         /// <returns>The request builder, to chain the statements</returns>
@@ -128,7 +130,7 @@ namespace Apicalypse.DotNet
         }
 
         /// <summary>
-        /// Sets the string to search in the API.<br/>
+        /// Sets a string to search in the API.<br/>
         /// Each call replace the previous<br/>
         /// Prepares the <strong>search</strong> statement of the Apicalypse query.
         /// </summary>
