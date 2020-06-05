@@ -25,7 +25,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
         [Test]
         public void ReturnMultiple()
         {
-            var expected = "name,slug,follows,alternative_names";
+            var expected = "name,slug,follows,alternative_names,franchise.name";
 
             Assert.AreEqual(expected, SelectTypeInterpreter.Run<GameShort>());
         }

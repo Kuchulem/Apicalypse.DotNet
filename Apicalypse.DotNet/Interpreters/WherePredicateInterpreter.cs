@@ -77,14 +77,7 @@ namespace Apicalypse.DotNet.Interpreters
 
         private static string ComputeMemberAccess(Expression predicate)
         {
-            var memberExpression = (predicate as MemberExpression);
-            switch(memberExpression.Member.MemberType)
-            {
-                case System.Reflection.MemberTypes.Property:
-                    return memberExpression.Member.Name.ToUnderscoreCase();
-                default:
-                    throw new NotImplementedException($"Members of type {memberExpression.Member.MemberType} are not yet implemeted");
-            }
+            return MemberPredicateInterpreter.Run(predicate);
         }
 
         private static string ComputeBinaryOperator(Expression left, Expression right, string binaryOperator)

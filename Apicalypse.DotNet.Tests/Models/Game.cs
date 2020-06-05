@@ -13,5 +13,8 @@ namespace Apicalypse.DotNet.Tests.Models
         public uint Follows { get; set; }
 
         public IEnumerable<int> AlternativeNames { get; set; }
+
+        public Franchise Franchise { get; set; }
+        public Cover Cover { get; set; }
     }
 }

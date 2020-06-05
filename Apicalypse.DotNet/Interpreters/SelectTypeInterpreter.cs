@@ -1,7 +1,9 @@
-﻿using Apicalypse.DotNet.Extensions;
+﻿using Apicalypse.DotNet.Attributes;
+using Apicalypse.DotNet.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Apicalypse.DotNet.Interpreters
@@ -21,11 +23,33 @@ namespace Apicalypse.DotNet.Interpreters
             var properties = typeof(T)
                 .GetProperties();
 
-            return string.Join(
-                ",", 
-                properties
-                    .Select(p => p.Name.ToUnderscoreCase())
-                    .ToList());
+            var fields = new List<string>();
+
+            foreach(var p in properties)
+            {
+                fields.Add(GetFields(p));
+            }
+
+            return string.Join(",",fields.Where(f => !string.IsNullOrEmpty(f)));
+        }
+
+        private static string GetFields(PropertyInfo property, string parentPath = "")
+        {
+            var fields = new List<string>();
+            var path = parentPath + property.Name.ToUnderscoreCase();
+            if (property.GetCustomAttribute<IncludeAttribute>() != null)
+            {
+                foreach(var p in property.PropertyType.GetProperties())
+                {
+                    fields.Add(GetFields(p, path + "."));
+                }
+            }
+            else if(property.GetCustomAttribute<ExcludeAttribute>() == null)
+            {
+                fields.Add(path);
+            }
+
+            return string.Join(",", fields);
         }
     }
 }

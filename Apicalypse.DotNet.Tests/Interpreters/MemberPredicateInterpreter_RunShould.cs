@@ -35,5 +35,21 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Assert.AreEqual(expected, MemberPredicateInterpreter.Run(predicate.Body));
         }
+
+        [Test]
+        public void ReturnCompleteOneLevelPathTest()
+        {
+            var expected = "franchise.name";
+            Expression<Func<Game, object>> predicate = g => g.Franchise.Name;
+            Assert.AreEqual(expected, MemberPredicateInterpreter.Run(predicate.Body));
+        }
+
+        [Test]
+        public void ReturnCompleteTwoLevelsPathTest()
+        {
+            var expected = "cover.picture.url";
+            Expression<Func<Game, object>> predicate = g => g.Cover.Picture.Url;
+            Assert.AreEqual(expected, MemberPredicateInterpreter.Run(predicate.Body));
+        }
     }
 }

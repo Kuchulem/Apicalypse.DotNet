@@ -37,10 +37,20 @@ namespace Apicalypse.DotNet.Interpreters
             switch (memberExpression.Member.MemberType)
             {
                 case System.Reflection.MemberTypes.Property:
-                    return memberExpression.Member.Name.ToUnderscoreCase();
+                    var path = UnrollMemberPath(memberExpression);
+                    return path;
                 default:
                     throw new NotImplementedException($"Works only with properties of the Generic object");
             }
+        }
+
+        private static string UnrollMemberPath(MemberExpression predicate)
+        {
+            var path = "";
+            if (predicate.Expression != null && predicate.Expression is MemberExpression)
+                path = UnrollMemberPath(predicate.Expression as MemberExpression) + ".";
+
+            return path + predicate.Member.Name.ToUnderscoreCase();
         }
     }
 }

@@ -293,5 +293,25 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
         }
+
+        [Test]
+        public void ReturnFullOneLevelPathFiltersWithOrTest()
+        {
+            var expected = "franchise.name = \"Worms\"";
+
+            Expression<Func<Game, bool>> predicate = (g) => g.Franchise.Name == "Worms";
+
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+        }
+
+        [Test]
+        public void ReturnFullTwoLevelPathFiltersWithOrTest()
+        {
+            var expected = "cover.picture.url = \"https://covers.com\"*";
+
+            Expression<Func<Game, bool>> predicate = (g) => g.Cover.Picture.Url.StartsWith("https://covers.com");
+
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+        }
     }
 }
