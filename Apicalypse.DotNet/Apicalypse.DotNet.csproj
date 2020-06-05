@@ -11,7 +11,7 @@ The library is based on Linq.</Description>
     <PackageProjectUrl>https://github.com/Kuchulem/Apicalypse.DotNet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Kuchulem/Apicalypse.DotNet</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <PackageTags>Apicalypse</PackageTags>
+    <PackageTags>apicalypse api</PackageTags>
     <PackageReleaseNotes>The beta version of the library, will need some testing (other than units tests)</PackageReleaseNotes>
     <Copyright>(c) 2020 Kuchulem</Copyright>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
