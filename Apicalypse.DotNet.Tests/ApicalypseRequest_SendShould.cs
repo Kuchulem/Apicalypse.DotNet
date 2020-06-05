@@ -3,6 +3,7 @@ using Apicalypse.DotNet.Tests.Models;
 using NUnit.Framework;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection.Metadata;
 
 namespace Apicalypse.DotNet.Tests
 {
@@ -74,6 +75,8 @@ namespace Apicalypse.DotNet.Tests
                 "search \"Foo\";\n" +
                 "limit 8;\n" +
                 "offset 2;";
+
+            Assert.AreEqual(expected, response.First().RequestBody);
         }
     }
 }
