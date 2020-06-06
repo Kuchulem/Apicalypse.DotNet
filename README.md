@@ -38,7 +38,7 @@ dotnet add Contoso.MyProject/Contoso.MyProject.csproj reference Apicalypse.DotNe
 
 # Usage
 
-For a full reference to the library go [there](https://github.com/Kuchulem/Apicalypse.DotNet/wiki/Library-Reference)
+For a full documentation for the library go [there](https://github.com/Kuchulem/Apicalypse.DotNet/wiki/)
 
 The entry point of the library is the `RequestBuilder<T>`. The Generic `T` should be a class of the api endpoint.
 
