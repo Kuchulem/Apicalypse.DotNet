@@ -1,4 +1,5 @@
 ﻿using Apicalypse.DotNet.Configuration;
+using Apicalypse.DotNet.Exceptions;
 using Apicalypse.DotNet.Extensions;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,9 @@ namespace Apicalypse.DotNet.Interpreters
         /// <returns></returns>
         public static string Run(Expression predicate, RequestBuilderConfiguration configuration, bool invert = false, ArrayPostfixMode arrayPostfixMode = ArrayPostfixMode.ContainsAny)
         {
+            if (predicate is null)
+                throw new ArgumentNullException(nameof(predicate));
+
             var binaryPredicate = predicate as BinaryExpression;
             switch (predicate.NodeType)
             {
@@ -72,7 +76,7 @@ namespace Apicalypse.DotNet.Interpreters
                 case ExpressionType.Call:
                     return ComputeMethodCall(predicate, configuration, invert);
                 default:
-                    throw new Exception($"Can not compute that expression : {predicate.NodeType}");
+                    throw new InvalidPredicateException(predicate);
             }
         }
 
@@ -100,6 +104,7 @@ namespace Apicalypse.DotNet.Interpreters
                 return "null";
             if (value is IConvertible)
                 return (value as IConvertible).ToString(CultureInfo.InvariantCulture);
+
             return value.ToString();
         }
 
@@ -109,17 +114,14 @@ namespace Apicalypse.DotNet.Interpreters
                 ",",
                 (array as NewArrayExpression).Expressions.Select(e => Run(e as ConstantExpression, configuration))
             );
-            switch (arrayPostfixMode)
-            {
-                case ArrayPostfixMode.ContainsAny:
-                    return $"({list})";
-                case ArrayPostfixMode.ContainsAll:
-                    return $"[{list}]";
-                case ArrayPostfixMode.ExactMatch:
-                    return $"{{{list}}}";
-            }
 
-            throw new Exception("Invalid array postfix mode");
+            return arrayPostfixMode switch
+            {
+                ArrayPostfixMode.ContainsAny => $"({list})",
+                ArrayPostfixMode.ContainsAll => $"[{list}]",
+                ArrayPostfixMode.ExactMatch => $"{{{list}}}",
+                _ => throw new Exception("Unknown array postfix mode"),
+            };
         }
 
         private static string ComputeNotCall(Expression notCall, RequestBuilderConfiguration configuration)
@@ -143,7 +145,7 @@ namespace Apicalypse.DotNet.Interpreters
             )
                 return ComputeArrayComparison(method, configuration, invert);
 
-            throw new Exception("Method call not implemented");
+            throw new InvalidPredicateException(methodCall);
         }
 
         private static string ComputeArrayComparison(MethodCallExpression method, RequestBuilderConfiguration configuration, bool inverted)

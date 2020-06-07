@@ -21,6 +21,9 @@ namespace Apicalypse.DotNet.Interpreters
         /// <returns></returns>
         public static string Run(Expression predicate, RequestBuilderConfiguration configuration)
         {
+            if (predicate is null)
+                throw new ArgumentNullException(nameof(predicate));
+
             return string.Join(",", MemberPredicateInterpreter.Run(predicate, configuration)
                 .Split(',').Select(s => s + " desc"));
         }

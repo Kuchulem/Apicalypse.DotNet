@@ -51,6 +51,9 @@ namespace Apicalypse.DotNet
         /// <returns>The request builder, to chain the statements</returns>
         public RequestBuilder<T> Select<TSelect>()
         {
+            if (!string.IsNullOrEmpty(excludes))
+                throw new InvalidOperationException("Can't combine Exclude and Select methods.");
+
             selects = SelectTypeInterpreter.Run<TSelect>(configuration);
 
             return this;
@@ -66,6 +69,9 @@ namespace Apicalypse.DotNet
         /// <returns>The request builder, to chain the statements</returns>
         public RequestBuilder<T> Select(Expression<Func<T, object>> predicate)
         {
+            if(!string.IsNullOrEmpty(excludes))
+                throw new InvalidOperationException("Can't combine Exclude and Select methods.");
+
             selects = MemberPredicateInterpreter.Run(predicate.Body, configuration);
 
             return this;

@@ -18,7 +18,10 @@ namespace Apicalypse.DotNet.Interpreters
         /// <returns></returns>
         public static string Run(Expression predicate, RequestBuilderConfiguration configuration)
         {
-            switch(predicate.NodeType)
+            if (predicate is null)
+                throw new ArgumentNullException(nameof(predicate));
+
+            switch (predicate.NodeType)
             {
                 case ExpressionType.MemberAccess:
                     return ComputeMemberAccess(predicate, configuration);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Apicalypse.DotNet.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -28,6 +29,12 @@ namespace Apicalypse.DotNet
         /// <returns>HttpResponseMessage</returns>
         public Task<HttpResponseMessage> Send(HttpClient httpClient, string endpoint)
         {
+            if (httpClient is null)
+                throw new ArgumentNullException(nameof(httpClient));
+
+            if (string.IsNullOrEmpty(endpoint))
+                throw new ArgumentNullException(nameof(endpoint));
+
             return httpClient.PostAsync($"/{endpoint}", new StringContent(body));
         }
 
@@ -42,6 +49,12 @@ namespace Apicalypse.DotNet
         public async Task<IEnumerable<T>> Send<T>(HttpClient httpClient, string endpoint)
             where T : new()
         {
+            if (httpClient is null)
+                throw new ArgumentNullException(nameof(httpClient));
+
+            if (string.IsNullOrEmpty(endpoint))
+                throw new ArgumentNullException(nameof(endpoint));
+
             var response = await Send(httpClient, endpoint).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
@@ -54,7 +67,7 @@ namespace Apicalypse.DotNet
                 });
             }
 
-            throw new Exception($"Response status code is not successfull : {response.StatusCode} : {response.ReasonPhrase}");
+            throw new HttpErrorException(response);
         }
     }
 }

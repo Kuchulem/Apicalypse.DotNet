@@ -76,6 +76,8 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<GameShort, object>> predicate = g => new { g.Name, g.Follows };
 
+            var str = predicate.ToString();
+
             Assert.AreEqual(expected, MemberPredicateInterpreter.Run(predicate.Body, camelCaseConfiguration));
         }
 
