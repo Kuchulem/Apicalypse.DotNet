@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Apicalypse.DotNet.Extensions;
+using System.Linq;
 
 namespace Apicalypse.DotNet.Tests.Extensions
 {
@@ -18,7 +19,7 @@ namespace Apicalypse.DotNet.Tests.Extensions
         {
             var original = "someCamelCaseString";
             var expected = "SomeCamelCaseString";
-            
+
             Assert.AreEqual(expected, original.ToPascalCase());
         }
 
