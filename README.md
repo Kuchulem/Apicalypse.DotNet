@@ -6,35 +6,11 @@ A .Net Stadard library to query APIs based on Apycalipse.
 
 # How to install
 
-more info [here](https://github.com/Kuchulem/Apicalypse.DotNet/wiki/Get-Started)
+more info [here](https://github.com/Kuchulem/Apicalypse.DotNet/wiki/Installation)
 
-## Nuget package
+# Documentation
 
-In *Nuget package manager* search for `Apicalypse.DotNet` and click on install the package.
-
-
-## Embeded library
-
-Clone the repository :
-
-```sh
-git clone git@github.com:Kuchulem/Apicalypse.DotNet.git
-```
-
-Add the project to your solution in VisualStudio and add a reference to it in your own project.
-
-If you prefere command line :
-Add it to your solution
-
-```sh
-dotnet sln add ~/source/repo/Apicalypse.DotNet/Apicalypse.DotNet.csproj
-```
-
-Add a reference to the library
-
-```sh
-dotnet add Contoso.MyProject/Contoso.MyProject.csproj reference Apicalypse.DotNet/Apicalypse.DotNet.csproj
-```
+Documentation can be found [here](https://github.com/Kuchulem/Apicalypse.DotNet/wiki)
 
 # Usage
 
