@@ -8,6 +8,10 @@ A .Net Stadard library to query APIs based on Apycalipse.
 
 more info [here](https://github.com/Kuchulem/Apicalypse.DotNet/wiki/Installation)
 
+# Documentation
+
+Documentation can be found [here](https://github.com/Kuchulem/Apicalypse.DotNet/wiki)
+
 # Usage
 
 For a full documentation for the library go [there](https://github.com/Kuchulem/Apicalypse.DotNet/wiki/)
