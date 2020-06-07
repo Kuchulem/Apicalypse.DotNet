@@ -8,14 +8,18 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using Apicalypse.DotNet.Extensions;
+using Apicalypse.DotNet.Configuration;
 
 namespace Apicalypse.DotNet.Tests.Interpreters
 {
     class WherePredicateInterpreter_RunShould
     {
+        RequestBuilderConfiguration configuration;
+
         [SetUp]
         public void Setup()
         {
+            configuration = new RequestBuilderConfiguration { CaseContract = CaseContract.SnakeCase };
         }
 
         [Test]
@@ -25,7 +29,27 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Name == "Foo";
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
+        }
+
+        [Test]
+        public void ReturnStringEqualCamelCaseToTest()
+        {
+            var expected = "name = \"Foo\"";
+
+            Expression<Func<Game, bool>> predicate = (g) => g.Name == "Foo";
+
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, new RequestBuilderConfiguration { CaseContract = CaseContract.CamelCase }));
+        }
+
+        [Test]
+        public void ReturnStringEqualPascalCaseToTest()
+        {
+            var expected = "Name = \"Foo\"";
+
+            Expression<Func<Game, bool>> predicate = (g) => g.Name == "Foo";
+
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, new RequestBuilderConfiguration { CaseContract = CaseContract.PascalCase }));
         }
 
         [Test]
@@ -35,7 +59,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Name != "Foo";
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -45,7 +69,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Follows == 3;
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -55,7 +79,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Name.Contains("Foo");
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -65,7 +89,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Name.Contains("Foo", StringComparison.InvariantCultureIgnoreCase);
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -75,7 +99,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Name.StartsWith("Foo");
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -85,7 +109,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Name.StartsWith("Foo", StringComparison.InvariantCultureIgnoreCase);
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -95,7 +119,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Name.StartsWith("Foo", true, CultureInfo.InvariantCulture);
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -105,7 +129,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Name.EndsWith("Foo");
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -115,7 +139,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Name.EndsWith("Foo", StringComparison.InvariantCultureIgnoreCase);
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -125,7 +149,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Name.EndsWith("Foo", true, CultureInfo.InvariantCulture);
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -135,7 +159,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Follows == 3;
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -145,7 +169,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Follows != 3;
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -155,7 +179,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Follows > 3;
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -165,7 +189,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Follows >= 3;
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -175,7 +199,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Follows < 3;
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -185,7 +209,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Follows <= 3;
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -195,7 +219,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => new[] { "Foo", "Bar", "Baz" }.Contains(g.Name);
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -205,7 +229,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => !(new[] { "Foo", "Bar", "Baz" }.Contains(g.Name));
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -215,7 +239,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => new uint[] { 3,4,5 }.Contains(g.Follows);
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -225,7 +249,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => !(new uint[] { 3, 4, 5 }.Contains(g.Follows));
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -235,7 +259,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => new int[] { 1,2,3 }.IsContainedIn(g.AlternativeNames);
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -245,7 +269,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => !(new int[] { 1, 2, 3 }.IsContainedIn(g.AlternativeNames));
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -255,7 +279,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => new int[] { 1, 2, 3 }.Equals(g.AlternativeNames);
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -265,7 +289,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => !(new int[] { 1, 2, 3 }.Equals(g.AlternativeNames));
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -278,7 +302,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
                 && new uint[] { 3, 4, 5 }.Contains(g.Follows)
                 && !(new int[] { 1, 2, 3 }.Equals(g.AlternativeNames));
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -291,7 +315,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
                 && new uint[] { 3, 4, 5 }.Contains(g.Follows)
                 || !(new int[] { 1, 2, 3 }.Equals(g.AlternativeNames));
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -301,7 +325,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Franchise.Name == "Worms";
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -311,7 +335,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Cover.Picture.Url.StartsWith("https://covers.com");
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -321,7 +345,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.EarlyAccess == true; ;
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -331,7 +355,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.EarlyAccess == false; ;
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -341,7 +365,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<Game, bool>> predicate = (g) => g.Slug == null; ;
 
-            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body, configuration));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Apicalypse.DotNet.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -14,7 +15,8 @@ namespace Apicalypse.DotNet.Interpreters
             string orders,
             string search,
             int take,
-            int skip
+            int skip,
+            RequestBuilderConfiguration configuration
         )
         {
             if (string.IsNullOrEmpty(selects))

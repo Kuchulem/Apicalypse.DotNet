@@ -1,4 +1,5 @@
-﻿using Apicalypse.DotNet.Interpreters;
+﻿using Apicalypse.DotNet.Configuration;
+using Apicalypse.DotNet.Interpreters;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,6 +16,7 @@ namespace Apicalypse.DotNet
     /// <typeparam name="T">The API model on witch the query is based</typeparam>
     public class RequestBuilder<T>
     {
+        private readonly RequestBuilderConfiguration configuration;
         private string selects;
         private string filters;
         private string excludes;
@@ -23,14 +25,21 @@ namespace Apicalypse.DotNet
         private int take;
         private int skip;
 
+        public RequestBuilder()
+            : this(new RequestBuilderConfiguration { CaseContract = CaseContract.SnakeCase })
+        {
+        }
+
         /// <summary>
         /// Constructor.
         /// </summary>
-        public RequestBuilder()
+        public RequestBuilder(RequestBuilderConfiguration configuration)
         {
             selects = "*";
             orders = "";
+            this.configuration = configuration;
         }
+
 
         /// <summary>
         /// Sets the list of fields to gather from the API model with the public
@@ -42,7 +51,7 @@ namespace Apicalypse.DotNet
         /// <returns>The request builder, to chain the statements</returns>
         public RequestBuilder<T> Select<TSelect>()
         {
-            selects = SelectTypeInterpreter.Run<TSelect>();
+            selects = SelectTypeInterpreter.Run<TSelect>(configuration);
 
             return this;
         }
@@ -57,7 +66,7 @@ namespace Apicalypse.DotNet
         /// <returns>The request builder, to chain the statements</returns>
         public RequestBuilder<T> Select(Expression<Func<T, object>> predicate)
         {
-            selects = MemberPredicateInterpreter.Run(predicate.Body);
+            selects = MemberPredicateInterpreter.Run(predicate.Body, configuration);
 
             return this;
         }
@@ -77,7 +86,7 @@ namespace Apicalypse.DotNet
             if (selects != "*")
                 throw new InvalidOperationException("Can't combine Exclude and Select methods.");
 
-            excludes = MemberPredicateInterpreter.Run(predicate.Body);
+            excludes = MemberPredicateInterpreter.Run(predicate.Body, configuration);
 
             return this;
         }
@@ -91,7 +100,7 @@ namespace Apicalypse.DotNet
         /// <returns>The request builder, to chain the statements</returns>
         public RequestBuilder<T> Where(Expression<Func<T, bool>> predicate)
         {
-            filters = WherePredicateInterpreter.Run(predicate.Body);
+            filters = WherePredicateInterpreter.Run(predicate.Body, configuration);
 
             return this;
         }
@@ -108,7 +117,7 @@ namespace Apicalypse.DotNet
         {
             if (!string.IsNullOrEmpty(orders))
                 orders += ",";
-            orders += MemberPredicateInterpreter.Run(predicate.Body);
+            orders += MemberPredicateInterpreter.Run(predicate.Body, configuration);
             return this;
         }
 
@@ -124,7 +133,7 @@ namespace Apicalypse.DotNet
         {
             if (!string.IsNullOrEmpty(orders))
                 orders += ",";
-            orders += InvertedOrderByInterpreter.Run(predicate.Body);
+            orders += InvertedOrderByInterpreter.Run(predicate.Body, configuration);
 
             return this;
         }
@@ -151,7 +160,7 @@ namespace Apicalypse.DotNet
             if (string.IsNullOrEmpty(search))
                 this.search = "";
             else
-                this.search = $"{MemberPredicateInterpreter.Run(field.Body)} {PrepareSearchString(search)}";
+                this.search = $"{MemberPredicateInterpreter.Run(field.Body, configuration)} {PrepareSearchString(search)}";
 
             return this;
         }
@@ -193,7 +202,7 @@ namespace Apicalypse.DotNet
         public ApicalipseRequest Build()
         {
             return new ApicalipseRequest(
-                RequestBuilderInterpreter.Run(selects, filters, excludes, orders, search, take, skip)
+                RequestBuilderInterpreter.Run(selects, filters, excludes, orders, search, take, skip, configuration)
             );
         }
 

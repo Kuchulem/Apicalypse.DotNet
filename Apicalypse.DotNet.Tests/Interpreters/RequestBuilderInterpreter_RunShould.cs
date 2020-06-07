@@ -1,4 +1,5 @@
 ﻿using Apicalypse.DotNet;
+using Apicalypse.DotNet.Configuration;
 using Apicalypse.DotNet.Interpreters;
 using Apicalypse.DotNet.Tests.Models;
 using NUnit.Framework;
@@ -10,10 +11,12 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 {
     class RequestBuilderInterpreter_RunShould
     {
+        RequestBuilderConfiguration configuration;
+
         [SetUp]
         public void Setup()
         {
-
+            configuration = new RequestBuilderConfiguration { CaseContract = CaseContract.SnakeCase };
         }
 
         [Test]
@@ -21,7 +24,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
         {
             var expected = "fields *;";
 
-            Assert.AreEqual(expected, RequestBuilderInterpreter.Run("*", "", "", "", "", 0, 0));
+            Assert.AreEqual(expected, RequestBuilderInterpreter.Run("*", "", "", "", "", 0, 0, configuration));
         }
 
         [Test]
@@ -40,7 +43,8 @@ namespace Apicalypse.DotNet.Tests.Interpreters
                 "name desc",
                 "\"Foo\"",
                 8,
-                2
+                2,
+                configuration
             ));
         }
     }

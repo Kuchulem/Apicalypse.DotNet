@@ -1,4 +1,5 @@
-﻿using Apicalypse.DotNet.Interpreters;
+﻿using Apicalypse.DotNet.Configuration;
+using Apicalypse.DotNet.Interpreters;
 using Apicalypse.DotNet.Tests.Models;
 using NUnit.Framework;
 using System;
@@ -10,10 +11,12 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 {
     class InvertedOrderByInterpreter_RunShould
     {
+        RequestBuilderConfiguration configuration;
+
         [SetUp]
         public void Setup()
         {
-
+            configuration = new RequestBuilderConfiguration { CaseContract = CaseContract.SnakeCase };
         }
 
         [Test]
@@ -23,7 +26,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<GameShort, object>> predicate = g => new { g.Name };
 
-            Assert.AreEqual(expected, InvertedOrderByInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, InvertedOrderByInterpreter.Run(predicate.Body, configuration));
         }
 
         [Test]
@@ -33,7 +36,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Expression<Func<GameShort, object>> predicate = g => new { g.Name, g.Follows };
 
-            Assert.AreEqual(expected, InvertedOrderByInterpreter.Run(predicate.Body));
+            Assert.AreEqual(expected, InvertedOrderByInterpreter.Run(predicate.Body, configuration));
         }
     }
 }

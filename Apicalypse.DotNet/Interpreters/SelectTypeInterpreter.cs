@@ -1,4 +1,5 @@
 ﻿using Apicalypse.DotNet.Attributes;
+using Apicalypse.DotNet.Configuration;
 using Apicalypse.DotNet.Extensions;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Apicalypse.DotNet.Interpreters
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static string Run<T>()
+        public static string Run<T>(RequestBuilderConfiguration configuration)
         {
             var properties = typeof(T)
                 .GetProperties();
@@ -27,21 +28,21 @@ namespace Apicalypse.DotNet.Interpreters
 
             foreach(var p in properties)
             {
-                fields.Add(GetFields(p));
+                fields.Add(GetFields(p, configuration));
             }
 
             return string.Join(",",fields.Where(f => !string.IsNullOrEmpty(f)));
         }
 
-        private static string GetFields(PropertyInfo property, string parentPath = "")
+        private static string GetFields(PropertyInfo property, RequestBuilderConfiguration configuration, string parentPath = "")
         {
             var fields = new List<string>();
-            var path = parentPath + property.Name.ToUnderscoreCase();
+            var path = parentPath + FieldInterpreter.Run(property.Name, configuration);
             if (property.GetCustomAttribute<IncludeAttribute>() != null)
             {
                 foreach(var p in property.PropertyType.GetProperties())
                 {
-                    fields.Add(GetFields(p, path + "."));
+                    fields.Add(GetFields(p, configuration, path + "."));
                 }
             }
             else if(property.GetCustomAttribute<ExcludeAttribute>() == null)

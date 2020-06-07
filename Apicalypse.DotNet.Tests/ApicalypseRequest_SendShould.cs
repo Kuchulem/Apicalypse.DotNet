@@ -80,7 +80,7 @@ namespace Apicalypse.DotNet.Tests
         }
 
         [Test]
-        public void SendQueryWithSearchInFieldTest()
+        public void SendQueryWithSearchInFieldSnakeCaseTest()
         {
             var response = new RequestBuilder<Game>()
                 .Select<GameShort>()
@@ -92,6 +92,50 @@ namespace Apicalypse.DotNet.Tests
                 .Build().Send<HttpMockModel>(httpClient, "game").GetAwaiter().GetResult();
 
             var expected = "fields name,slug,follows,alternative_names,franchise.name;\n" +
+                "where follows >= 3 & follows < 10;\n" +
+                "sort name desc;\n" +
+                "search name \"Foo\";\n" +
+                "limit 8;\n" +
+                "offset 2;";
+
+            Assert.AreEqual(expected, response.First().RequestBody);
+        }
+
+        [Test]
+        public void SendQueryWithSearchInFieldPascalCaseTest()
+        {
+            var response = new RequestBuilder<Game>(new Configuration.RequestBuilderConfiguration { CaseContract = Configuration.CaseContract.PascalCase })
+                .Select<GameShort>()
+                .Where(g => g.Follows >= 3 && g.Follows < 10)
+                .OrderByDescending(g => g.Name)
+                .Search("Foo", g => g.Name)
+                .Take(8)
+                .Skip(2)
+                .Build().Send<HttpMockModel>(httpClient, "game").GetAwaiter().GetResult();
+
+            var expected = "fields Name,Slug,Follows,AlternativeNames,Franchise.Name;\n" +
+                "where Follows >= 3 & Follows < 10;\n" +
+                "sort Name desc;\n" +
+                "search Name \"Foo\";\n" +
+                "limit 8;\n" +
+                "offset 2;";
+
+            Assert.AreEqual(expected, response.First().RequestBody);
+        }
+
+        [Test]
+        public void SendQueryWithSearchInFieldCamelCaseTest()
+        {
+            var response = new RequestBuilder<Game>(new Configuration.RequestBuilderConfiguration { CaseContract = Configuration.CaseContract.CamelCase })
+                .Select<GameShort>()
+                .Where(g => g.Follows >= 3 && g.Follows < 10)
+                .OrderByDescending(g => g.Name)
+                .Search("Foo", g => g.Name)
+                .Take(8)
+                .Skip(2)
+                .Build().Send<HttpMockModel>(httpClient, "game").GetAwaiter().GetResult();
+
+            var expected = "fields name,slug,follows,alternativeNames,franchise.name;\n" +
                 "where follows >= 3 & follows < 10;\n" +
                 "sort name desc;\n" +
                 "search name \"Foo\";\n" +
