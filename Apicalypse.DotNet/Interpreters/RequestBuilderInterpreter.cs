@@ -8,6 +8,18 @@ namespace Apicalypse.DotNet.Interpreters
 {
     public static class RequestBuilderInterpreter
     {
+        /// <summary>
+        /// Assembles a request from the statements
+        /// </summary>
+        /// <param name="selects"></param>
+        /// <param name="filters"></param>
+        /// <param name="excludes"></param>
+        /// <param name="orders"></param>
+        /// <param name="search"></param>
+        /// <param name="take"></param>
+        /// <param name="skip"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static string Run(
             string selects,
             string filters,

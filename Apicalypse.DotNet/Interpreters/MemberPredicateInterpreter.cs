@@ -10,6 +10,12 @@ namespace Apicalypse.DotNet.Interpreters
 {
     public class MemberPredicateInterpreter
     {
+        /// <summary>
+        /// Returns a member or list of members as a string from a predicate
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static string Run(Expression predicate, RequestBuilderConfiguration configuration)
         {
             switch(predicate.NodeType)
