@@ -13,7 +13,7 @@ namespace Apicalypse.DotNet.Interpreters
     /// </summary>
     public class WherePredicateInterpreter
     {
-        public enum ArrayPostfixMode { ContainsAny, ExactMatch, ContainsAll};
+        public enum ArrayPostfixMode { ContainsAny, ExactMatch, ContainsAll };
         /// <summary>
         /// Interpretes a predicate to convert it to a string usable by IGDB API
         /// </summary>
@@ -93,6 +93,10 @@ namespace Apicalypse.DotNet.Interpreters
             var value = (constant as ConstantExpression).Value;
             if (value is string)
                 return $"\"{(value as string).Replace("\"", "\\\"")}\"";
+            if (value is bool boolean)
+                return boolean ? "true" : "false";
+            if (value is null)
+                return "null";
             if (value is IConvertible)
                 return (value as IConvertible).ToString(CultureInfo.InvariantCulture);
             return value.ToString();
@@ -104,7 +108,7 @@ namespace Apicalypse.DotNet.Interpreters
                 ",",
                 (array as NewArrayExpression).Expressions.Select(e => Run(e as ConstantExpression))
             );
-            switch(arrayPostfixMode)
+            switch (arrayPostfixMode)
             {
                 case ArrayPostfixMode.ContainsAny:
                     return $"({list})";

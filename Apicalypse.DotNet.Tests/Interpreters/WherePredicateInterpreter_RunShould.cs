@@ -313,5 +313,25 @@ namespace Apicalypse.DotNet.Tests.Interpreters
 
             Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
         }
+
+        [Test]
+        public void ReturnBooleanComparisonTest()
+        {
+            var expected = "early_access = true";
+
+            Expression<Func<Game, bool>> predicate = (g) => g.EarlyAccess == true; ;
+
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+        }
+
+        [Test]
+        public void ReturnNullComparisonTest()
+        {
+            var expected = "slug = null";
+
+            Expression<Func<Game, bool>> predicate = (g) => g.Slug == null; ;
+
+            Assert.AreEqual(expected, WherePredicateInterpreter.Run(predicate.Body));
+        }
     }
 }
