@@ -38,7 +38,7 @@ namespace Apicalypse.DotNet.Tests.Interpreters
                 "name,slug,follows,alternative_names",
                 "follows >= 3 & follows < 10", "",
                 "name desc",
-                "Foo",
+                "\"Foo\"",
                 8,
                 2
             ));

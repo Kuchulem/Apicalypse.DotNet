@@ -78,5 +78,49 @@ namespace Apicalypse.DotNet.Tests
 
             Assert.AreEqual(expected, response.First().RequestBody);
         }
+
+        [Test]
+        public void SendQueryWithSearchInFieldTest()
+        {
+            var response = new RequestBuilder<Game>()
+                .Select<GameShort>()
+                .Where(g => g.Follows >= 3 && g.Follows < 10)
+                .OrderByDescending(g => g.Name)
+                .Search("Foo", g => g.Name)
+                .Take(8)
+                .Skip(2)
+                .Build().Send<HttpMockModel>(httpClient, "game").GetAwaiter().GetResult();
+
+            var expected = "fields name,slug,follows,alternative_names,franchise.name;\n" +
+                "where follows >= 3 & follows < 10;\n" +
+                "sort name desc;\n" +
+                "search name \"Foo\";\n" +
+                "limit 8;\n" +
+                "offset 2;";
+
+            Assert.AreEqual(expected, response.First().RequestBody);
+        }
+
+        [Test]
+        public void SendQueryWithSearchInMultiLevelFieldTest()
+        {
+            var response = new RequestBuilder<Game>()
+                .Select<GameShort>()
+                .Where(g => g.Follows >= 3 && g.Follows < 10)
+                .OrderByDescending(g => g.Name)
+                .Search("Foo", g => g.Franchise.Name)
+                .Take(8)
+                .Skip(2)
+                .Build().Send<HttpMockModel>(httpClient, "game").GetAwaiter().GetResult();
+
+            var expected = "fields name,slug,follows,alternative_names,franchise.name;\n" +
+                "where follows >= 3 & follows < 10;\n" +
+                "sort name desc;\n" +
+                "search franchise.name \"Foo\";\n" +
+                "limit 8;\n" +
+                "offset 2;";
+
+            Assert.AreEqual(expected, response.First().RequestBody);
+        }
     }
 }

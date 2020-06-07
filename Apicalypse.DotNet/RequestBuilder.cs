@@ -140,8 +140,18 @@ namespace Apicalypse.DotNet
         {
             if (string.IsNullOrEmpty(search))
                 this.search = "";
+            else
+                this.search = PrepareSearchString(search);
 
-            this.search = search;
+            return this;
+        }
+
+        public RequestBuilder<T> Search(string search, Expression<Func<T, string>> field)
+        {
+            if (string.IsNullOrEmpty(search))
+                this.search = "";
+            else
+                this.search = $"{MemberPredicateInterpreter.Run(field.Body)} {PrepareSearchString(search)}";
 
             return this;
         }
@@ -185,6 +195,13 @@ namespace Apicalypse.DotNet
             return new ApicalipseRequest(
                 RequestBuilderInterpreter.Run(selects, filters, excludes, orders, search, take, skip)
             );
+        }
+
+        private string PrepareSearchString(string search)
+        {
+            var escaped = search.Replace("\"", "\\\"");
+
+            return $"\"{escaped}\"";
         }
     }
 }

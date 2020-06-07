@@ -32,7 +32,7 @@ namespace Apicalypse.DotNet.Interpreters
                 body += $"\nsort {orders};";
             
             if (!string.IsNullOrEmpty(search))
-                body += $"\nsearch \"{search.Replace("\"", "\\\"")}\";";
+                body += $"\nsearch {search};";
 
             if (take != default)
                 body += $"\nlimit {take.ToString(CultureInfo.InvariantCulture)};";
