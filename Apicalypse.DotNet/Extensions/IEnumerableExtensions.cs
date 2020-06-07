@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Apicalypse.DotNet.Extensions
 {
+    /// <summary>
+    /// Extension methods for IEnumerable
+    /// </summary>
     public static class IEnumerableExtensions
     {
         /// <summary>

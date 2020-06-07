@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Apicalypse.DotNet.Exceptions
 {
+    /// <summary>
+    /// Exception thrown when an invalid predicate is passed to the builder.
+    /// </summary>
     public class InvalidPredicateException : Exception
     {
         private const string MESSAGE = "Could not parse predicate :";

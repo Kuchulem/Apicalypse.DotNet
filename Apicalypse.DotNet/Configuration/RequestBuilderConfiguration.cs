@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Apicalypse.DotNet.Configuration
 {
+    /// <summary>
+    /// Enum describing the case contract to use in the Apicalypse query
+    /// </summary>
     public enum CaseContract 
     { 
         // Use snake_case fields in query

@@ -7,6 +7,9 @@ using System.Text;
 
 namespace Apicalypse.DotNet.Exceptions
 {
+    /// <summary>
+    /// Exception thrown by the API call when non success status code returned
+    /// </summary>
     public class HttpErrorException : Exception
     {
         const string MESSAGE = "Error on calling API with Apicalypse : ";

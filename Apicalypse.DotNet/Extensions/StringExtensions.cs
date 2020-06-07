@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Apicalypse.DotNet.Extensions
 {
+    /// <summary>
+    /// Extensions for string
+    /// </summary>
     public static class StringExtensions
     {
         /// <summary>
